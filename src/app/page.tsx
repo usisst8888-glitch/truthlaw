@@ -1,20 +1,27 @@
+import Image from "next/image";
+
+const sections = [
+  { src: "/pc_section/section_01.png", alt: "섹션 1" },
+  { src: "/pc_section/section_02.png", alt: "섹션 2" },
+  { src: "/pc_section/section_03.png", alt: "섹션 3" },
+  { src: "/pc_section/section_04.png", alt: "섹션 4" },
+  { src: "/pc_section/section_05.png", alt: "섹션 5" },
+  { src: "/pc_section/section_06.png", alt: "섹션 6" },
+];
+
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-white dark:bg-zinc-950">
-      <main className="flex flex-col items-center gap-8 text-center px-6">
-        <h1 className="text-5xl font-bold tracking-tight text-zinc-900 dark:text-white">
-          TruthLaw
-        </h1>
-        <p className="text-xl text-zinc-500 dark:text-zinc-400 max-w-md">
-          법률 정보를 쉽고 정확하게 확인하세요.
-        </p>
-        <a
-          href="#"
-          className="mt-4 rounded-full bg-zinc-900 px-8 py-3 text-white font-medium hover:bg-zinc-700 transition-colors dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
-        >
-          시작하기
-        </a>
-      </main>
+    <div className="flex flex-col w-full">
+      {sections.map((section) => (
+        <Image
+          key={section.src}
+          src={section.src}
+          alt={section.alt}
+          width={1920}
+          height={1080}
+          className="w-full h-auto"
+        />
+      ))}
     </div>
   );
 }
