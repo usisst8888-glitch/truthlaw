@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -19,8 +20,8 @@ export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-zinc-200">
       <div className="mx-auto max-w-6xl px-6 flex items-center justify-between h-16">
-        <Link href="/" className="text-xl font-bold text-zinc-900">
-          TruthLaw
+        <Link href="/">
+          <Image src="/logo.png" alt="오현식 법무사 사무소" width={180} height={32} />
         </Link>
 
         {/* 데스크탑 메뉴 */}
