@@ -16,15 +16,16 @@ const AuthContext = createContext<AuthContextType>({ user: null, displayName: nu
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  // localStorage에서 즉시 읽어 초기값으로 사용 → 깜빡임 없음
-  const [displayName, setDisplayName] = useState<string | null>(() => {
-    if (typeof window === "undefined") return null;
-    return localStorage.getItem(STORAGE_KEY);
-  });
+  // SSR과 클라이언트 초기값을 null로 통일 → Hydration 에러 없음
+  const [displayName, setDisplayName] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    return onAuthStateChanged(auth, (u) => {
+    // 마운트 직후 localStorage에서 읽어 즉시 반영 (Firebase 응답 전에)
+    const cached = localStorage.getItem(STORAGE_KEY);
+    if (cached) setDisplayName(cached);
+
+    const unsubscribe = onAuthStateChanged(auth, (u) => {
       setUser(u);
       setLoading(false);
       if (u) {
@@ -36,6 +37,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         localStorage.removeItem(STORAGE_KEY);
       }
     });
+    return unsubscribe;
   }, []);
 
   return (
