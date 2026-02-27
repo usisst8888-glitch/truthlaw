@@ -60,7 +60,7 @@ export default function RegisterPage() {
             <input
               type="text" name="name" value={form.name} onChange={handleChange}
               placeholder="홍길동" required
-              className="w-full rounded-lg border border-zinc-300 px-4 py-2.5 text-sm outline-none focus:border-zinc-500 transition-colors"
+              className="w-full rounded-lg border border-zinc-300 px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none focus:border-zinc-500 transition-colors"
             />
           </div>
           <div>
@@ -68,7 +68,7 @@ export default function RegisterPage() {
             <input
               type="email" name="email" value={form.email} onChange={handleChange}
               placeholder="example@email.com" required
-              className="w-full rounded-lg border border-zinc-300 px-4 py-2.5 text-sm outline-none focus:border-zinc-500 transition-colors"
+              className="w-full rounded-lg border border-zinc-300 px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none focus:border-zinc-500 transition-colors"
             />
           </div>
           <div>
@@ -76,7 +76,7 @@ export default function RegisterPage() {
             <input
               type="tel" name="phone" value={form.phone} onChange={handleChange}
               placeholder="010-0000-0000" required
-              className="w-full rounded-lg border border-zinc-300 px-4 py-2.5 text-sm outline-none focus:border-zinc-500 transition-colors"
+              className="w-full rounded-lg border border-zinc-300 px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none focus:border-zinc-500 transition-colors"
             />
           </div>
           <div>
@@ -84,7 +84,7 @@ export default function RegisterPage() {
             <input
               type="password" name="password" value={form.password} onChange={handleChange}
               placeholder="6자 이상 입력" required
-              className="w-full rounded-lg border border-zinc-300 px-4 py-2.5 text-sm outline-none focus:border-zinc-500 transition-colors"
+              className="w-full rounded-lg border border-zinc-300 px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none focus:border-zinc-500 transition-colors"
             />
           </div>
           <div>
@@ -92,7 +92,7 @@ export default function RegisterPage() {
             <input
               type="password" name="confirm" value={form.confirm} onChange={handleChange}
               placeholder="비밀번호를 다시 입력" required
-              className="w-full rounded-lg border border-zinc-300 px-4 py-2.5 text-sm outline-none focus:border-zinc-500 transition-colors"
+              className="w-full rounded-lg border border-zinc-300 px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none focus:border-zinc-500 transition-colors"
             />
           </div>
 
