@@ -30,10 +30,9 @@ export default function Header() {
   };
 
   const AuthButtons = () => {
-    if (loading) return null;
     if (user) {
       return (
-        <div className="flex items-center gap-3">
+        <div className={`flex items-center gap-3 transition-opacity duration-200 ${loading ? "opacity-0" : "opacity-100"}`}>
           <span className="text-sm text-zinc-600">{user.displayName ?? user.email}</span>
           <button
             onClick={handleLogout}
@@ -45,7 +44,7 @@ export default function Header() {
       );
     }
     return (
-      <div className="flex items-center gap-2">
+      <div className={`flex items-center gap-2 transition-opacity duration-200 ${loading ? "opacity-0" : "opacity-100"}`}>
         <Link href="/login" className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors px-3 py-1.5">
           로그인
         </Link>
@@ -97,8 +96,8 @@ export default function Header() {
               {item.label}
             </Link>
           ))}
-          <div className="pt-2 border-t border-zinc-100">
-            {!loading && (user ? (
+          <div className={`pt-2 border-t border-zinc-100 transition-opacity duration-200 ${loading ? "opacity-0" : "opacity-100"}`}>
+            {user ? (
               <div className="flex flex-col gap-2">
                 <span className="text-sm text-zinc-500">{user.displayName ?? user.email}</span>
                 <button onClick={handleLogout} className="w-full text-center text-sm font-medium text-white bg-zinc-900 rounded-lg py-2 hover:bg-zinc-700 transition-colors">
@@ -114,7 +113,7 @@ export default function Header() {
                   회원가입
                 </Link>
               </div>
-            ))}
+            )}
           </div>
         </nav>
       )}
