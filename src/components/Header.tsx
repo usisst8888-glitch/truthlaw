@@ -29,32 +29,6 @@ export default function Header() {
     setMenuOpen(false);
   };
 
-  const AuthButtons = () => {
-    if (user) {
-      return (
-        <div className={`flex items-center gap-3 transition-opacity duration-200 ${loading ? "opacity-0" : "opacity-100"}`}>
-          <span className="text-sm text-zinc-600">{user.displayName ?? user.email}</span>
-          <button
-            onClick={handleLogout}
-            className="text-sm font-medium text-white bg-zinc-900 hover:bg-zinc-700 transition-colors px-4 py-1.5 rounded-full"
-          >
-            로그아웃
-          </button>
-        </div>
-      );
-    }
-    return (
-      <div className={`flex items-center gap-2 transition-opacity duration-200 ${loading ? "opacity-0" : "opacity-100"}`}>
-        <Link href="/login" className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors px-3 py-1.5">
-          로그인
-        </Link>
-        <Link href="/register" className="text-sm font-medium text-white bg-zinc-900 hover:bg-zinc-700 transition-colors px-4 py-1.5 rounded-full">
-          회원가입
-        </Link>
-      </div>
-    );
-  };
-
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-zinc-200">
       <div className="mx-auto max-w-6xl px-6 flex items-center justify-between h-16">
@@ -71,9 +45,30 @@ export default function Header() {
           ))}
         </nav>
 
-        {/* 데스크탑 로그인/회원가입 */}
-        <div className="hidden md:flex">
-          <AuthButtons />
+        {/* 데스크탑 로그인/회원가입 - 로딩 중엔 자리만 유지 */}
+        <div className="hidden md:flex items-center gap-2 min-w-[160px] justify-end">
+          {!loading && (
+            user ? (
+              <>
+                <span className="text-sm text-zinc-600">{user.displayName ?? user.email}</span>
+                <button
+                  onClick={handleLogout}
+                  className="text-sm font-medium text-white bg-zinc-900 hover:bg-zinc-700 transition-colors px-4 py-1.5 rounded-full"
+                >
+                  로그아웃
+                </button>
+              </>
+            ) : (
+              <>
+                <Link href="/login" className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors px-3 py-1.5">
+                  로그인
+                </Link>
+                <Link href="/register" className="text-sm font-medium text-white bg-zinc-900 hover:bg-zinc-700 transition-colors px-4 py-1.5 rounded-full">
+                  회원가입
+                </Link>
+              </>
+            )
+          )}
         </div>
 
         {/* 모바일 햄버거 버튼 */}
@@ -96,25 +91,27 @@ export default function Header() {
               {item.label}
             </Link>
           ))}
-          <div className={`pt-2 border-t border-zinc-100 transition-opacity duration-200 ${loading ? "opacity-0" : "opacity-100"}`}>
-            {user ? (
-              <div className="flex flex-col gap-2">
-                <span className="text-sm text-zinc-500">{user.displayName ?? user.email}</span>
-                <button onClick={handleLogout} className="w-full text-center text-sm font-medium text-white bg-zinc-900 rounded-lg py-2 hover:bg-zinc-700 transition-colors">
-                  로그아웃
-                </button>
-              </div>
-            ) : (
-              <div className="flex gap-2">
-                <Link href="/login" className="flex-1 text-center text-sm text-zinc-600 border border-zinc-300 rounded-lg py-2 hover:bg-zinc-50 transition-colors" onClick={() => setMenuOpen(false)}>
-                  로그인
-                </Link>
-                <Link href="/register" className="flex-1 text-center text-sm font-medium text-white bg-zinc-900 rounded-lg py-2 hover:bg-zinc-700 transition-colors" onClick={() => setMenuOpen(false)}>
-                  회원가입
-                </Link>
-              </div>
-            )}
-          </div>
+          {!loading && (
+            <div className="pt-2 border-t border-zinc-100">
+              {user ? (
+                <div className="flex flex-col gap-2">
+                  <span className="text-sm text-zinc-500">{user.displayName ?? user.email}</span>
+                  <button onClick={handleLogout} className="w-full text-center text-sm font-medium text-white bg-zinc-900 rounded-lg py-2 hover:bg-zinc-700 transition-colors">
+                    로그아웃
+                  </button>
+                </div>
+              ) : (
+                <div className="flex gap-2">
+                  <Link href="/login" className="flex-1 text-center text-sm text-zinc-600 border border-zinc-300 rounded-lg py-2 hover:bg-zinc-50 transition-colors" onClick={() => setMenuOpen(false)}>
+                    로그인
+                  </Link>
+                  <Link href="/register" className="flex-1 text-center text-sm font-medium text-white bg-zinc-900 rounded-lg py-2 hover:bg-zinc-700 transition-colors" onClick={() => setMenuOpen(false)}>
+                    회원가입
+                  </Link>
+                </div>
+              )}
+            </div>
+          )}
         </nav>
       )}
     </header>
