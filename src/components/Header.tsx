@@ -3,6 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { signOut } from "firebase/auth";
+import { useRouter } from "next/navigation";
+import { auth } from "@/lib/firebase";
+import { useAuth } from "@/contexts/AuthContext";
 
 const navItems = [
   { label: "사무실소개", href: "/about" },
@@ -16,6 +20,41 @@ const navItems = [
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { user, loading } = useAuth();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await signOut(auth);
+    router.push("/");
+    setMenuOpen(false);
+  };
+
+  const AuthButtons = () => {
+    if (loading) return null;
+    if (user) {
+      return (
+        <div className="flex items-center gap-3">
+          <span className="text-sm text-zinc-600">{user.displayName ?? user.email}</span>
+          <button
+            onClick={handleLogout}
+            className="text-sm font-medium text-white bg-zinc-900 hover:bg-zinc-700 transition-colors px-4 py-1.5 rounded-full"
+          >
+            로그아웃
+          </button>
+        </div>
+      );
+    }
+    return (
+      <div className="flex items-center gap-2">
+        <Link href="/login" className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors px-3 py-1.5">
+          로그인
+        </Link>
+        <Link href="/register" className="text-sm font-medium text-white bg-zinc-900 hover:bg-zinc-700 transition-colors px-4 py-1.5 rounded-full">
+          회원가입
+        </Link>
+      </div>
+    );
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-zinc-200">
@@ -27,30 +66,15 @@ export default function Header() {
         {/* 데스크탑 메뉴 */}
         <nav className="hidden md:flex items-center gap-8">
           {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors"
-            >
+            <Link key={item.href} href={item.href} className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors">
               {item.label}
             </Link>
           ))}
         </nav>
 
-        {/* 로그인/회원가입 버튼 */}
-        <div className="hidden md:flex items-center gap-2">
-          <Link
-            href="/login"
-            className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors px-3 py-1.5"
-          >
-            로그인
-          </Link>
-          <Link
-            href="/register"
-            className="text-sm font-medium text-white bg-zinc-900 hover:bg-zinc-700 transition-colors px-4 py-1.5 rounded-full"
-          >
-            회원가입
-          </Link>
+        {/* 데스크탑 로그인/회원가입 */}
+        <div className="hidden md:flex">
+          <AuthButtons />
         </div>
 
         {/* 모바일 햄버거 버튼 */}
@@ -65,34 +89,32 @@ export default function Header() {
         </button>
       </div>
 
-      {/* 모바일 드롭다운 메뉴 */}
+      {/* 모바일 드롭다운 */}
       {menuOpen && (
         <nav className="md:hidden border-t border-zinc-100 bg-white px-6 py-4 flex flex-col gap-4">
           {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors"
-              onClick={() => setMenuOpen(false)}
-            >
+            <Link key={item.href} href={item.href} className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors" onClick={() => setMenuOpen(false)}>
               {item.label}
             </Link>
           ))}
-          <div className="flex gap-2 pt-2 border-t border-zinc-100">
-            <Link
-              href="/login"
-              className="flex-1 text-center text-sm text-zinc-600 border border-zinc-300 rounded-lg py-2 hover:bg-zinc-50 transition-colors"
-              onClick={() => setMenuOpen(false)}
-            >
-              로그인
-            </Link>
-            <Link
-              href="/register"
-              className="flex-1 text-center text-sm font-medium text-white bg-zinc-900 rounded-lg py-2 hover:bg-zinc-700 transition-colors"
-              onClick={() => setMenuOpen(false)}
-            >
-              회원가입
-            </Link>
+          <div className="pt-2 border-t border-zinc-100">
+            {!loading && (user ? (
+              <div className="flex flex-col gap-2">
+                <span className="text-sm text-zinc-500">{user.displayName ?? user.email}</span>
+                <button onClick={handleLogout} className="w-full text-center text-sm font-medium text-white bg-zinc-900 rounded-lg py-2 hover:bg-zinc-700 transition-colors">
+                  로그아웃
+                </button>
+              </div>
+            ) : (
+              <div className="flex gap-2">
+                <Link href="/login" className="flex-1 text-center text-sm text-zinc-600 border border-zinc-300 rounded-lg py-2 hover:bg-zinc-50 transition-colors" onClick={() => setMenuOpen(false)}>
+                  로그인
+                </Link>
+                <Link href="/register" className="flex-1 text-center text-sm font-medium text-white bg-zinc-900 rounded-lg py-2 hover:bg-zinc-700 transition-colors" onClick={() => setMenuOpen(false)}>
+                  회원가입
+                </Link>
+              </div>
+            ))}
           </div>
         </nav>
       )}

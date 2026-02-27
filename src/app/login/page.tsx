@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/lib/firebase";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -18,23 +20,14 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
     setLoading(true);
-
-    const res = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
-
-    const data = await res.json();
-    setLoading(false);
-
-    if (!res.ok) {
-      setError(data.error);
-      return;
+    try {
+      await signInWithEmailAndPassword(auth, form.email, form.password);
+      router.push("/");
+    } catch {
+      setError("이메일 또는 비밀번호가 올바르지 않습니다.");
+    } finally {
+      setLoading(false);
     }
-
-    router.push("/");
-    router.refresh();
   };
 
   return (
@@ -47,25 +40,16 @@ export default function LoginPage() {
           <div>
             <label className="block text-sm font-medium text-zinc-700 mb-1">이메일</label>
             <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              placeholder="example@email.com"
-              required
+              type="email" name="email" value={form.email} onChange={handleChange}
+              placeholder="example@email.com" required
               className="w-full rounded-lg border border-zinc-300 px-4 py-2.5 text-sm outline-none focus:border-zinc-500 transition-colors"
             />
           </div>
-
           <div>
             <label className="block text-sm font-medium text-zinc-700 mb-1">비밀번호</label>
             <input
-              type="password"
-              name="password"
-              value={form.password}
-              onChange={handleChange}
-              placeholder="비밀번호 입력"
-              required
+              type="password" name="password" value={form.password} onChange={handleChange}
+              placeholder="비밀번호 입력" required
               className="w-full rounded-lg border border-zinc-300 px-4 py-2.5 text-sm outline-none focus:border-zinc-500 transition-colors"
             />
           </div>
@@ -73,8 +57,7 @@ export default function LoginPage() {
           {error && <p className="text-sm text-red-500">{error}</p>}
 
           <button
-            type="submit"
-            disabled={loading}
+            type="submit" disabled={loading}
             className="mt-2 w-full rounded-lg bg-zinc-900 py-3 text-sm font-medium text-white hover:bg-zinc-700 transition-colors disabled:opacity-50"
           >
             {loading ? "로그인 중..." : "로그인"}
@@ -83,9 +66,7 @@ export default function LoginPage() {
 
         <p className="mt-6 text-center text-sm text-zinc-400">
           계정이 없으신가요?{" "}
-          <Link href="/register" className="text-zinc-900 font-medium hover:underline">
-            회원가입
-          </Link>
+          <Link href="/register" className="text-zinc-900 font-medium hover:underline">회원가입</Link>
         </p>
       </div>
     </div>
