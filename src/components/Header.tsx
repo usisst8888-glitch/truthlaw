@@ -37,6 +37,22 @@ export default function Header() {
           ))}
         </nav>
 
+        {/* 로그인/회원가입 버튼 */}
+        <div className="hidden md:flex items-center gap-2">
+          <Link
+            href="/login"
+            className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors px-3 py-1.5"
+          >
+            로그인
+          </Link>
+          <Link
+            href="/register"
+            className="text-sm font-medium text-white bg-zinc-900 hover:bg-zinc-700 transition-colors px-4 py-1.5 rounded-full"
+          >
+            회원가입
+          </Link>
+        </div>
+
         {/* 모바일 햄버거 버튼 */}
         <button
           className="md:hidden flex flex-col gap-1.5"
@@ -62,6 +78,22 @@ export default function Header() {
               {item.label}
             </Link>
           ))}
+          <div className="flex gap-2 pt-2 border-t border-zinc-100">
+            <Link
+              href="/login"
+              className="flex-1 text-center text-sm text-zinc-600 border border-zinc-300 rounded-lg py-2 hover:bg-zinc-50 transition-colors"
+              onClick={() => setMenuOpen(false)}
+            >
+              로그인
+            </Link>
+            <Link
+              href="/register"
+              className="flex-1 text-center text-sm font-medium text-white bg-zinc-900 rounded-lg py-2 hover:bg-zinc-700 transition-colors"
+              onClick={() => setMenuOpen(false)}
+            >
+              회원가입
+            </Link>
+          </div>
         </nav>
       )}
     </header>
