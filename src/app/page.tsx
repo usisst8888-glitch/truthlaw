@@ -74,7 +74,7 @@ export default function Home() {
         className="relative w-full bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: "url(/pc_section/section_04.png)" }}
       >
-        <div className="w-full aspect-[1920/900] flex items-end justify-center pb-[5%]">
+        <div className="w-full flex items-end justify-center py-[3%]">
           <div className="grid grid-cols-4 gap-6 w-[90%] mx-auto">
             {serviceCards.map((card) => (
               <Link
