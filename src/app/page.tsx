@@ -74,20 +74,20 @@ export default function Home() {
         className="relative w-full bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: "url(/pc_section/section_04.png)" }}
       >
-        <div className="w-full aspect-[1920/700] flex items-end justify-center pb-[5%]">
-          <div className="grid grid-cols-4 gap-6 w-full max-w-7xl px-8 mx-auto">
+        <div className="w-full aspect-[1920/900] flex items-end justify-center pb-[5%]">
+          <div className="grid grid-cols-4 gap-6 w-[90%] mx-auto">
             {serviceCards.map((card) => (
               <Link
                 key={card.href}
                 href={card.href}
-                className="group block rounded-lg p-8 hover:brightness-95 transition-all aspect-[3/2] relative"
-                style={{ backgroundColor: "#D3D3D3" }}
+                className="group block rounded-lg p-10 hover:brightness-95 transition-all relative"
+                style={{ backgroundColor: "#D3D3D3", minHeight: "280px" }}
               >
-                <div className="absolute top-6 right-6 text-zinc-400 group-hover:text-zinc-500 transition-colors">
+                <div className="absolute top-8 right-8 text-zinc-400 group-hover:text-zinc-500 transition-colors">
                   {card.icon}
                 </div>
-                <div className="absolute bottom-6 left-8 right-8">
-                  <h3 className="text-xl font-bold text-zinc-800 mb-2">{card.title}</h3>
+                <div className="absolute bottom-8 left-10 right-10">
+                  <h3 className="text-2xl font-bold text-zinc-800 mb-3">{card.title}</h3>
                   <p className="text-sm text-zinc-500 leading-relaxed">{card.desc}</p>
                 </div>
               </Link>
