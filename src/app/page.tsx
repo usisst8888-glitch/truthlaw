@@ -74,21 +74,21 @@ export default function Home() {
         className="relative w-full bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: "url(/pc_section/section_04.png)" }}
       >
-        <div className="w-full aspect-[1920/600] flex items-end justify-center pb-[4%]">
-          <div className="grid grid-cols-4 gap-5 w-full max-w-6xl px-6">
+        <div className="w-full aspect-[1920/700] flex items-end justify-center pb-[5%]">
+          <div className="grid grid-cols-4 gap-6 w-full max-w-7xl px-8 mx-auto">
             {serviceCards.map((card) => (
               <Link
                 key={card.href}
                 href={card.href}
-                className="group block rounded-lg p-6 hover:brightness-95 transition-all aspect-[4/3] relative"
+                className="group block rounded-lg p-8 hover:brightness-95 transition-all aspect-[3/2] relative"
                 style={{ backgroundColor: "#D3D3D3" }}
               >
-                <div className="absolute top-5 right-5 text-zinc-400 group-hover:text-zinc-500 transition-colors">
+                <div className="absolute top-6 right-6 text-zinc-400 group-hover:text-zinc-500 transition-colors">
                   {card.icon}
                 </div>
-                <div className="absolute bottom-5 left-6 right-6">
-                  <h3 className="text-lg font-bold text-zinc-800 mb-2">{card.title}</h3>
-                  <p className="text-xs text-zinc-500 leading-relaxed">{card.desc}</p>
+                <div className="absolute bottom-6 left-8 right-8">
+                  <h3 className="text-xl font-bold text-zinc-800 mb-2">{card.title}</h3>
+                  <p className="text-sm text-zinc-500 leading-relaxed">{card.desc}</p>
                 </div>
               </Link>
             ))}
