@@ -42,7 +42,8 @@ export default function RegisterPage() {
       if (code === "auth/email-already-in-use") setError("이미 사용 중인 이메일입니다.");
       else if (code === "auth/weak-password") setError("비밀번호는 6자 이상이어야 합니다.");
       else if (code === "auth/invalid-email") setError("올바른 이메일 형식이 아닙니다.");
-      else setError("회원가입 중 오류가 발생했습니다.");
+      else if (code === "auth/operation-not-allowed") setError("이메일/비밀번호 로그인이 비활성화 되어 있습니다. Firebase Console에서 활성화해주세요.");
+      else setError(`오류: ${code ?? String(err)}`);
     } finally {
       setLoading(false);
     }
