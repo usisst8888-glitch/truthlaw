@@ -75,12 +75,13 @@ export default function Home() {
         style={{ backgroundImage: "url(/pc_section/section_04.png)" }}
       >
         <div className="w-full aspect-[1920/600] flex items-end justify-center pb-[4%]">
-          <div className="grid grid-cols-4 gap-4 w-full max-w-5xl px-6">
+          <div className="grid grid-cols-4 gap-5 w-full max-w-6xl px-6">
             {serviceCards.map((card) => (
               <Link
                 key={card.href}
                 href={card.href}
-                className="group block bg-zinc-200 rounded-lg p-6 hover:bg-zinc-300 transition-colors aspect-[4/3] relative"
+                className="group block rounded-lg p-6 hover:brightness-95 transition-all aspect-[4/3] relative"
+                style={{ backgroundColor: "#D3D3D3" }}
               >
                 <div className="absolute top-5 right-5 text-zinc-400 group-hover:text-zinc-500 transition-colors">
                   {card.icon}
