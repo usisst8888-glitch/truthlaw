@@ -1,16 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
+import MapPopup from "@/components/MapPopup";
 
-const topSections = [
-  { src: "/pc_section/section_01.png", alt: "섹션 1" },
-  { src: "/pc_section/section_02.png", alt: "섹션 2" },
-  { src: "/pc_section/section_03.png", alt: "섹션 3" },
+const pcSections = [
+  { content: "/pc_section/section_01.png", bg: "/pc_section/main_banner_bg01.png", alt: "섹션 1", w: 1259, h: 358, bgRatio: "1920/590" },
+  { content: "/pc_section/section_02.png", bg: "/pc_section/main_banner_bg02.png", alt: "섹션 2", w: 1724, h: 742, bgRatio: "1920/742" },
+  { content: "/pc_section/section_03.png", bg: "/pc_section/main_banner_bg03.png", alt: "섹션 3", w: 1420, h: 395, bgRatio: "1920/700" },
 ];
 
-const bottomSections = [
-  { src: "/pc_section/section_05.png", alt: "섹션 5" },
-  { src: "/pc_section/section_06.png", alt: "섹션 6" },
-];
+const pcSection5 = { content: "/pc_section/section_05.png", bg: "/pc_section/main_banner_bg05.png", alt: "섹션 5", w: 1760, h: 590, bgRatio: "1920/698" };
 
 const mobileTopSections = [
   { src: "/mobile_section/m_section_01.png", alt: "모바일 섹션 1" },
@@ -20,7 +18,6 @@ const mobileTopSections = [
 
 const mobileBottomSections = [
   { src: "/mobile_section/m_section_05.png", alt: "모바일 섹션 5" },
-  { src: "/mobile_section/m_section_06.png", alt: "모바일 섹션 6" },
   { src: "/mobile_section/m_section_07.png", alt: "모바일 섹션 7" },
 ];
 
@@ -70,7 +67,7 @@ const serviceCards = [
 export default function Home() {
   return (
     <div className="flex flex-col w-full">
-      {/* 모바일 */}
+      {/* 모바일: 상단 이미지 */}
       <div className="md:hidden">
         {mobileTopSections.map((section) => (
           <Image
@@ -82,38 +79,60 @@ export default function Home() {
             className="w-full h-auto"
           />
         ))}
+      </div>
 
-        {/* 모바일 섹션 4 - 이미지 위에 카드 오버레이 */}
-        <div className="relative w-full">
-          <Image
-            src="/mobile_section/m_section_04.png"
-            alt="모바일 섹션 4"
-            width={750}
-            height={1334}
-            className="w-full h-auto"
-          />
-          <div className="absolute bottom-[8%] left-0 right-0 flex justify-center">
-            <div className="grid grid-cols-2 gap-2 w-[90%]">
-              {serviceCards.map((card) => (
-                <Link
-                  key={card.href}
-                  href={card.href}
-                  className="group block rounded-lg p-4 hover:brightness-95 transition-all relative min-h-[130px]"
-                  style={{ backgroundColor: "#D3D3D3" }}
-                >
-                  <div className="absolute top-3 right-3 text-zinc-400 group-hover:text-zinc-500 transition-colors">
-                    {card.icon}
-                  </div>
-                  <div className="absolute bottom-3 left-4 right-4">
-                    <h3 className="text-base font-bold text-zinc-800 mb-1">{card.title}</h3>
-                    <p className="text-[11px] text-zinc-500 leading-relaxed">{card.desc}</p>
-                  </div>
-                </Link>
-              ))}
-            </div>
+      {/* 데스크탑: 상단 섹션 (배경 비율 고정 + 콘텐츠 원본 최대) */}
+      <div className="hidden md:block">
+        {pcSections.map((section) => (
+          <div
+            key={section.content}
+            className="w-full bg-cover bg-center bg-no-repeat flex items-center justify-center"
+            style={{ backgroundImage: `url(${section.bg})`, aspectRatio: section.bgRatio }}
+          >
+            <Image
+              src={section.content}
+              alt={section.alt}
+              width={section.w}
+              height={section.h}
+              className="h-auto"
+              style={{ maxWidth: `${section.w}px`, width: "100%" }}
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* 섹션 4 - 코드 기반 (모바일/데스크탑 공통) */}
+      <section className="bg-zinc-900 py-12 md:py-20 px-4 md:px-8">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-white text-xl md:text-4xl font-bold mb-2 md:mb-3 text-right">
+            의뢰인의 소중한 권익을 지키는 것을 최우선으로 하며,
+          </h2>
+          <p className="text-zinc-400 text-sm md:text-xl mb-8 md:mb-12 text-right">
+            끝까지 책임감 있게 함께하여 만족스러운 결과로 보답하겠습니다.
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
+            {serviceCards.map((card) => (
+              <Link
+                key={card.href}
+                href={card.href}
+                className="group block rounded-lg p-4 md:p-10 hover:brightness-95 transition-all relative min-h-[150px] md:min-h-[280px]"
+                style={{ backgroundColor: "#D3D3D3" }}
+              >
+                <div className="absolute top-3 right-3 md:top-8 md:right-8 text-zinc-400 group-hover:text-zinc-500 transition-colors">
+                  {card.icon}
+                </div>
+                <div className="absolute bottom-3 left-4 right-4 md:bottom-8 md:left-10 md:right-10">
+                  <h3 className="text-base md:text-2xl font-bold text-zinc-800 mb-1 md:mb-3">{card.title}</h3>
+                  <p className="text-[11px] md:text-sm text-zinc-500 leading-relaxed">{card.desc}</p>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
+      </section>
 
+      {/* 모바일: 하단 이미지 */}
+      <div className="md:hidden">
         {mobileBottomSections.map((section) => (
           <Image
             key={section.src}
@@ -126,60 +145,94 @@ export default function Home() {
         ))}
       </div>
 
-      {/* 데스크탑: PC 전용 이미지 + 섹션4 카드 오버레이 */}
+      {/* 데스크탑: 섹션 5 */}
       <div className="hidden md:block">
-        {topSections.map((section) => (
+        <div
+          className="w-full bg-cover bg-center bg-no-repeat flex items-center justify-center"
+          id="section5"
+          style={{ backgroundImage: `url(${pcSection5.bg})`, aspectRatio: pcSection5.bgRatio }}
+        >
           <Image
-            key={section.src}
-            src={section.src}
-            alt={section.alt}
-            width={1920}
-            height={1080}
-            className="w-full h-auto"
+            src={pcSection5.content}
+            alt={pcSection5.alt}
+            width={pcSection5.w}
+            height={pcSection5.h}
+            className="h-auto"
+            style={{ maxWidth: `${pcSection5.w}px`, width: "100%" }}
           />
-        ))}
+        </div>
+      </div>
 
-        {/* 섹션 4 - 이미지 위에 카드 오버레이 */}
-        <div className="relative w-full">
+      {/* 섹션 6 (모바일/데스크탑 공통 - 배경 + 조합) */}
+      <div
+        className="w-full bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url(/pc_section/main_banner_bg06.png)" }}
+      >
+        <div className="max-w-[1200px] mx-auto flex flex-col items-center px-4 md:px-8 py-8 md:py-10">
+          {/* 타이틀 */}
           <Image
-            src="/pc_section/section_04.png"
-            alt="섹션 4"
-            width={1920}
-            height={1080}
-            className="w-full h-auto"
+            src="/pc_section/section_06_title.png"
+            alt="오현식 법무사 사무소 오시는길"
+            width={460}
+            height={144}
+            className="h-auto mb-6 md:mb-8"
+            style={{ maxWidth: "460px", width: "100%" }}
           />
-          <div className="flex absolute bottom-[15%] left-0 right-0 justify-center">
-            <div className="grid grid-cols-4 gap-6 w-[85%]">
-              {serviceCards.map((card) => (
-                <Link
-                  key={card.href}
-                  href={card.href}
-                  className="group block rounded-lg p-10 hover:brightness-95 transition-all relative min-h-[280px]"
-                  style={{ backgroundColor: "#D3D3D3" }}
-                >
-                  <div className="absolute top-8 right-8 text-zinc-400 group-hover:text-zinc-500 transition-colors">
-                    {card.icon}
-                  </div>
-                  <div className="absolute bottom-8 left-10 right-10">
-                    <h3 className="text-2xl font-bold text-zinc-800 mb-3">{card.title}</h3>
-                    <p className="text-sm text-zinc-500 leading-relaxed">{card.desc}</p>
-                  </div>
+          {/* PC: 가로 배치 */}
+          <div className="hidden md:flex items-start gap-10 w-full">
+            <MapPopup />
+            <div className="flex flex-col gap-5">
+              <Image
+                src="/pc_section/section_06_dec.png"
+                alt="사무소 정보"
+                width={492}
+                height={166}
+                className="h-auto"
+                style={{ maxWidth: "492px" }}
+              />
+              <div className="grid grid-cols-2 gap-3">
+                <Link href="https://open.kakao.com" target="_blank">
+                  <Image src="/pc_section/section_06_item_01.png" alt="카카오톡 상담하기" width={255} height={54} className="h-auto" style={{ maxWidth: "220px" }} />
                 </Link>
-              ))}
+                <Link href="tel:032-710-1997">
+                  <Image src="/pc_section/section_06_item_02.png" alt="전화상담하기" width={255} height={54} className="h-auto" style={{ maxWidth: "220px" }} />
+                </Link>
+                <Link href="#section5">
+                  <Image src="/pc_section/section_06_item_03.png" alt="자주묻는질문 가기" width={255} height={54} className="h-auto" style={{ maxWidth: "220px" }} />
+                </Link>
+                <Link href="/support">
+                  <Image src="/pc_section/section_06_item_04.png" alt="공지사항 가기" width={255} height={54} className="h-auto" style={{ maxWidth: "220px" }} />
+                </Link>
+              </div>
+            </div>
+          </div>
+          {/* 모바일: 세로 배치 */}
+          <div className="md:hidden flex flex-col items-center gap-5 w-full">
+            <MapPopup />
+            <Image
+              src="/pc_section/section_06_dec.png"
+              alt="사무소 정보"
+              width={492}
+              height={166}
+              className="h-auto w-full"
+              style={{ maxWidth: "400px" }}
+            />
+            <div className="grid grid-cols-2 gap-2 w-full" style={{ maxWidth: "400px" }}>
+              <Link href="https://open.kakao.com" target="_blank">
+                <Image src="/pc_section/section_06_item_01.png" alt="카카오톡 상담하기" width={255} height={54} className="w-full h-auto" />
+              </Link>
+              <Link href="tel:032-710-1997">
+                <Image src="/pc_section/section_06_item_02.png" alt="전화상담하기" width={255} height={54} className="w-full h-auto" />
+              </Link>
+              <Link href="#section5">
+                <Image src="/pc_section/section_06_item_03.png" alt="자주묻는질문 가기" width={255} height={54} className="w-full h-auto" />
+              </Link>
+              <Link href="/support">
+                <Image src="/pc_section/section_06_item_04.png" alt="공지사항 가기" width={255} height={54} className="w-full h-auto" />
+              </Link>
             </div>
           </div>
         </div>
-
-        {bottomSections.map((section) => (
-          <Image
-            key={section.src}
-            src={section.src}
-            alt={section.alt}
-            width={1920}
-            height={1080}
-            className="w-full h-auto"
-          />
-        ))}
       </div>
     </div>
   );

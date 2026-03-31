@@ -1,0 +1,40 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 관리자 판별 함수
+    function isAdmin() {
+      return request.auth != null &&
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
+    }
+
+    // 공지사항 - 누구나 읽기, 관리자만 쓰기/수정/삭제
+    match /notices/{noticeId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // 사용자 - 본인 데이터만 읽기/수정, 회원가입 시 생성 허용
+    // role 필드는 본인이 수정 불가 (Console에서만 설정)
+    match /users/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow create: if request.auth != null && request.auth.uid == uid;
+      allow update: if request.auth != null && request.auth.uid == uid
+                       && !("role" in request.resource.data)
+                       || request.resource.data.role == resource.data.role;
+      allow delete: if false;
+    }
+
+    // 고객센터 게시판 - 누구나 읽기, 관리자만 쓰기/수정/삭제
+    match /support/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // 상담 신청 - 누구나 생성 가능, 읽기/수정/삭제는 관리자만
+    match /consultations/{docId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+  }
+}

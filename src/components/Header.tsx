@@ -9,18 +9,17 @@ import { auth } from "@/lib/firebase";
 import { useAuth } from "@/contexts/AuthContext";
 
 const navItems = [
-  { label: "사무실소개", href: "/about" },
+  // { label: "사무실소개", href: "/about" },
   { label: "개인회생", href: "/rehabilitation" },
   { label: "개인파산", href: "/bankruptcy" },
   { label: "민사", href: "/civil" },
   { label: "등기", href: "/registry" },
   { label: "고객센터", href: "/support" },
-  { label: "상담문의", href: "/contact" },
 ];
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { displayName } = useAuth();
+  const { displayName, isAdmin } = useAuth();
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -39,10 +38,15 @@ export default function Header() {
         {/* 데스크탑 메뉴 */}
         <nav className="hidden md:flex items-center gap-8">
           {navItems.map((item) => (
-            <Link key={item.href} href={item.href} className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors">
+            <Link key={item.href} href={item.href} className="text-[13px] font-semibold text-zinc-700 hover:text-zinc-900 tracking-tight transition-colors">
               {item.label}
             </Link>
           ))}
+          {isAdmin && (
+            <Link href="/admin/consultations" className="text-[13px] font-semibold text-sky-600 hover:text-sky-800 transition-colors">
+              상담관리
+            </Link>
+          )}
         </nav>
 
         {/* 데스크탑 - displayName 기반으로 즉시 렌더 (깜빡임 없음) */}
@@ -85,10 +89,15 @@ export default function Header() {
       {menuOpen && (
         <nav className="md:hidden border-t border-zinc-100 bg-white px-6 py-4 flex flex-col gap-4">
           {navItems.map((item) => (
-            <Link key={item.href} href={item.href} className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors" onClick={() => setMenuOpen(false)}>
+            <Link key={item.href} href={item.href} className="text-[15px] font-semibold text-zinc-700 hover:text-zinc-900 transition-colors" onClick={() => setMenuOpen(false)}>
               {item.label}
             </Link>
           ))}
+          {isAdmin && (
+            <Link href="/admin/consultations" className="text-[15px] font-semibold text-sky-600 hover:text-sky-800 transition-colors" onClick={() => setMenuOpen(false)}>
+              상담관리
+            </Link>
+          )}
           <div className="pt-2 border-t border-zinc-100">
             {displayName ? (
               <div className="flex flex-col gap-2">
