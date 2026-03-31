@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Noto_Serif_KR } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import ConsultationBar from "@/components/ConsultationBar";
+import FloatingButtons from "@/components/FloatingButtons";
 import Footer from "@/components/Footer";
 import { AuthProvider } from "@/contexts/AuthContext";
 
@@ -45,6 +46,7 @@ export default function RootLayout({
           <Header />
           <main className="pt-16">{children}</main>
           <Footer />
+          <FloatingButtons />
           <ConsultationBar />
         </AuthProvider>
       </body>

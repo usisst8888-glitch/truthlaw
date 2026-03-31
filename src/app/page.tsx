@@ -191,7 +191,7 @@ export default function Home() {
                 style={{ maxWidth: "492px" }}
               />
               <div className="grid grid-cols-2 gap-3">
-                <Link href="https://open.kakao.com" target="_blank">
+                <Link href="https://pf.kakao.com/_HxlMxnG" target="_blank">
                   <Image src="/pc_section/section_06_item_01.png" alt="카카오톡 상담하기" width={255} height={54} className="h-auto" style={{ maxWidth: "220px" }} />
                 </Link>
                 <Link href="tel:032-710-1997">
@@ -218,7 +218,7 @@ export default function Home() {
               style={{ maxWidth: "400px" }}
             />
             <div className="grid grid-cols-2 gap-2 w-full" style={{ maxWidth: "400px" }}>
-              <Link href="https://open.kakao.com" target="_blank">
+              <Link href="https://pf.kakao.com/_HxlMxnG" target="_blank">
                 <Image src="/pc_section/section_06_item_01.png" alt="카카오톡 상담하기" width={255} height={54} className="w-full h-auto" />
               </Link>
               <Link href="tel:032-710-1997">
